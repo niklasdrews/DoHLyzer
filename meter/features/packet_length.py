@@ -42,7 +42,7 @@ class PacketLength:
             float: The variation of packet lengths.
 
         """
-        return numpy.var(self.get_packet_length())
+        return float(numpy.var(self.get_packet_length()))
 
     def get_std(self) -> float:
         """The standard deviation of packet lengths in a network flow.
@@ -60,9 +60,9 @@ class PacketLength:
             float: The mean of packet lengths.
 
         """
-        mean = 0
+        mean = 0.0
         if self.get_packet_length() != 0:
-            mean = numpy.mean(self.get_packet_length())
+            mean = float(numpy.mean(self.get_packet_length()))
 
         return mean
 
