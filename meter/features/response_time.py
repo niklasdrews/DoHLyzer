@@ -37,11 +37,11 @@ class ResponseTime:
             float: The variation in time differences.
 
         """
-        var = -1
+        var = -1.0
         if len(self.get_dif()) != 0:
             var = numpy.var(self.get_dif())
 
-        return var
+        return float(var)
 
     def get_mean(self) -> float:
         """Calculates the mean of the list of time differences.
@@ -50,11 +50,11 @@ class ResponseTime:
             float: The mean in time differences.
 
         """
-        mean = -1
+        mean = -1.0
         if len(self.get_dif()) != 0:
             mean = numpy.mean(self.get_dif())
 
-        return mean
+        return float(mean)
 
     def get_median(self) -> float:
         """Calculates the median of the list of time differences
