@@ -1,10 +1,11 @@
-from tensorflow.keras import Sequential
-from tensorflow.keras.layers import Dense, Dropout, LSTM, Conv1D, MaxPool1D, Flatten
+from keras import Sequential
+from keras.layers import Dense, Dropout, Conv1D, MaxPool1D, Flatten
 
 
 def create_model(segment_size):
     model = Sequential()
-    model.add(Conv1D(segment_size * 2, kernel_size=3, input_shape=(segment_size, 5), activation='relu'))
+    model.add(Conv1D(segment_size * 2, kernel_size=3,
+              input_shape=(segment_size, 5), activation='relu'))
     model.add(MaxPool1D())
     model.add(Flatten())
     model.add(Dense(segment_size * 6, activation='relu'))

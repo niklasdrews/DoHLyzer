@@ -4,7 +4,7 @@ import json
 import logging
 
 from sklearn.metrics import classification_report, confusion_matrix
-from tensorflow.keras.callbacks import EarlyStopping
+from keras.src.callbacks import EarlyStopping
 
 import analyzer.dataset as dataset
 from analyzer.models import create_model
@@ -46,16 +46,19 @@ if __name__ == '__main__':
 
     for segment_size in range(4, 11):
 
-        x_train, x_test, y_train, y_test = dataset.load_dataset(args.input, segment_size, use_cache=False)
+        x_train, x_test, y_train, y_test = dataset.load_dataset(
+            args.input, segment_size, use_cache=False)
 
         for model_idx in range(1, 5):
             for _ in range(3):
-                results.append((run_model(model_idx, segment_size), model_idx, segment_size))
+                results.append(
+                    (run_model(model_idx, segment_size), model_idx, segment_size))
 
     output = open(args.output, 'w')
 
     for res, model_idx, segments in results:
-        print('=' * 20 + ' [SEG={}] Model {} '.format(segments, model_idx) + '=' * 20)
+        print(
+            '=' * 20 + ' [SEG={}] Model {} '.format(segments, model_idx) + '=' * 20)
         print(res[0])
         print(res[1])
 
