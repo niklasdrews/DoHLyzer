@@ -36,9 +36,10 @@ class FlowSession(DefaultSession):
         self.garbage_collect(None)
         return super(FlowSession, self).toPacketList()
 
-    def on_packet_received(self, packet):
+    def process(self, pkt):
         count = 0
         direction = PacketDirection.FORWARD
+        packet = pkt
 
         if self.output_mode != 'flow':
             if TLS not in packet:
