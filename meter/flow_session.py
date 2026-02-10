@@ -37,6 +37,11 @@ class FlowSession(DefaultSession):
         return super(FlowSession, self).toPacketList()
 
     def process(self, pkt):
+
+        # If not IPv4 packet, skip it
+        if 'IP' not in pkt:
+            return
+
         count = 0
         direction = PacketDirection.FORWARD
         packet = pkt
