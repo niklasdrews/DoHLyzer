@@ -23,7 +23,8 @@ class PacketTime:
         if self.packet_times is not None:
             return self.packet_times
         first_packet_time = self.flow.packets[0][0].time
-        packet_times = [packet.time - first_packet_time for packet, _ in self.flow.packets]
+        packet_times = packet_times = [
+            float(packet.time - first_packet_time) for packet, _ in self.flow.packets]
         return packet_times
 
     def relative_time_list(self):
@@ -33,7 +34,8 @@ class PacketTime:
             if index == 0:
                 relative_time_list.append(0)
             elif index < len(packet_times):
-                relative_time_list.append(float(time - packet_times[index - 1]))
+                relative_time_list.append(
+                    float(time - packet_times[index - 1]))
             elif index < 50:
                 relative_time_list.append(0)
             else:
