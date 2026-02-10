@@ -42,16 +42,19 @@ class PacketLength:
             float: The variation of packet lengths.
 
         """
-        return numpy.var(self.get_packet_length())
+        packet_lengths = self.get_packet_length()
+        if len(packet_lengths) == 0:
+            return 0.0
+        return float(numpy.var(packet_lengths))
 
     def get_std(self) -> float:
         """The standard deviation of packet lengths in a network flow.
- 
-        Rens:
+
+        Returns:
             float: The standard deviation of packet lengths.
 
         """
-        return numpy.sqrt(self.get_var())
+        return float(numpy.sqrt(self.get_var()))
 
     def get_mean(self) -> float:
         """The mean of packet lengths in a network flow.
@@ -60,11 +63,10 @@ class PacketLength:
             float: The mean of packet lengths.
 
         """
-        mean = 0
-        if self.get_packet_length() != 0:
-            mean = numpy.mean(self.get_packet_length())
-
-        return mean
+        packet_lengths = self.get_packet_length()
+        if len(packet_lengths) == 0:
+            return 0.0
+        return float(numpy.mean(packet_lengths))
 
     def get_median(self) -> float:
         """The median of packet lengths in a network flow.
@@ -73,7 +75,10 @@ class PacketLength:
             float: The median of packet lengths.
 
         """
-        return numpy.median(self.get_packet_length())
+        packet_lengths = self.get_packet_length()
+        if len(packet_lengths) == 0:
+            return 0.0
+        return float(numpy.median(packet_lengths))
 
     def get_mode(self) -> float:
         """The mode of packet lengths in a network flow.

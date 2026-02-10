@@ -61,8 +61,10 @@ class PacketTime:
             The duration of a network flow.
 
         """
-
-        return max(self._get_packet_times()) - min(self._get_packet_times())
+        packet_times = self._get_packet_times()
+        if len(packet_times) == 0:
+            return 0.0
+        return max(packet_times) - min(packet_times)
 
     def get_var(self):
         """Calculates the variation of packet times in a network flow.
@@ -71,7 +73,10 @@ class PacketTime:
             float: The variation of packet times.
 
         """
-        return numpy.var(self._get_packet_times())
+        packet_times = self._get_packet_times()
+        if len(packet_times) == 0:
+            return 0.0
+        return float(numpy.var(packet_times))
 
     def get_std(self):
         """Calculates the standard deviation of packet times in a network flow.
@@ -80,7 +85,7 @@ class PacketTime:
             float: The standard deviation of packet times.
 
         """
-        return numpy.sqrt(self.get_var())
+        return float(numpy.sqrt(self.get_var()))
 
     def get_mean(self):
         """Calculates the mean of packet times in a network flow.
@@ -89,11 +94,10 @@ class PacketTime:
             float: The mean of packet times
 
         """
-        mean = 0
-        if self._get_packet_times() != 0:
-            mean = numpy.mean(self._get_packet_times())
-
-        return mean
+        packet_times = self._get_packet_times()
+        if len(packet_times) == 0:
+            return 0.0
+        return float(numpy.mean(packet_times))
 
     def get_median(self):
         """Calculates the median of packet times in a network flow.
@@ -102,7 +106,10 @@ class PacketTime:
             float: The median of packet times
 
         """
-        return numpy.median(self._get_packet_times())
+        packet_times = self._get_packet_times()
+        if len(packet_times) == 0:
+            return 0.0
+        return float(numpy.median(packet_times))
 
     def get_mode(self):
         """The mode of packet times in a network flow.
