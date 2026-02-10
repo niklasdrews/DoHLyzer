@@ -5,19 +5,23 @@ import argparse
 from scapy.all import load_layer
 from scapy.sendrecv import AsyncSniffer
 
-from meter.flow_session import generate_session_class
+from meter.flow_session import generate_session_class, EXPIRED_UPDATE
 
 
 def create_sniffer(input_file, input_interface, output_mode, output_file):
     assert (input_file is None) ^ (input_interface is None)
 
     NewFlowSession = generate_session_class(output_mode, output_file)
+    session_instance = NewFlowSession()
 
     if input_file is not None:
-        return AsyncSniffer(offline=input_file, filter='tcp port 443', prn=None, session=NewFlowSession, store=False)
+        sniffer = AsyncSniffer(offline=input_file, filter='tcp port 443',
+                               prn=None, session=session_instance, store=False)
     else:
-        return AsyncSniffer(iface=input_interface, filter='tcp port 443', prn=None,
-                            session=NewFlowSession, store=False)
+        sniffer = AsyncSniffer(iface=input_interface, filter='tcp port 443', prn=None,
+                               session=session_instance, store=False)
+
+    return sniffer, session_instance
 
 
 def main():
@@ -35,12 +39,14 @@ def main():
     output_group.add_argument('-s', '--json', '--sequence', action='store_const', const='sequence', dest='output_mode',
                               help='output flow segments as json')
 
-    parser.add_argument('output', help='output file name (in flow mode) or directory (in sequence mode)')
+    parser.add_argument(
+        'output', help='output file name (in flow mode) or directory (in sequence mode)')
     args = parser.parse_args()
 
     load_layer('tls')
 
-    sniffer = create_sniffer(args.input_file, args.input_interface, args.output_mode, args.output)
+    sniffer, session = create_sniffer(
+        args.input_file, args.input_interface, args.output_mode, args.output)
     sniffer.start()
 
     try:
@@ -49,6 +55,8 @@ def main():
         sniffer.stop()
     finally:
         sniffer.join()
+        # Manual trigger garbage collection to flush possible remaining flows
+        session.garbage_collect(latest_time=None)
 
 
 if __name__ == '__main__':
