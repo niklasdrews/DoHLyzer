@@ -18,6 +18,12 @@ Example:
 python3 dohlyzer.py -n eth0 -c ./output.csv
 ```
 
+or as Python module from the DoHLyzer root folder
+
+```bash
+python3 -m meter.dohlyzer -n eth0 -c ./output.csv
+```
+
 See `meter.flow.Flow.get_data` for the list of features extracted in this CSV file.
 
 ### Time-series Features
@@ -36,4 +42,15 @@ mkdir -p output/ndoh/
 
 # Feature extraction
 python3 dohlyzer.py -n eth0 -s ./output/
+```
+or as Python module from the DoHLyzer root folder
+
+```bash
+# Preparing the output directories
+mkdir output
+mkdir -p output/doh/
+mkdir -p output/ndoh/
+
+# Feature extraction
+python3 -m meter.dohlyzer -n eth0 -s ./output/
 ```
