@@ -29,6 +29,7 @@ class FlowSession(DefaultSession):
         self.clumped_flows_per_label = defaultdict(list)
 
         super(FlowSession, self).__init__(*args, **kwargs)
+        super(FlowSession, self).__init__(*args, **kwargs)
 
     def toPacketList(self):
         # Sniffer finished all the packets it needed to sniff.
@@ -111,7 +112,7 @@ class FlowSession(DefaultSession):
             self.garbage_collect(packet.time)
 
     def get_flows(self) -> list:
-        return self.flows.values()
+        return list(self.flows.values())
 
     def garbage_collect(self, latest_time) -> None:
         # TODO: Garbage Collection / Feature Extraction should have a separate thread
