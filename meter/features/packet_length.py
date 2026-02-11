@@ -18,7 +18,7 @@ class PacketLength:
 
     def get_packet_length(self) -> list:
         """Creates a list of packet lengths.
- 
+
         Returns:
             packet_lengths (List[int]):
 
