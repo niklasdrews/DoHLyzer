@@ -13,6 +13,7 @@ def create_sniffer(input_file, input_interface, output_mode, output_file):
 
     NewFlowSession = generate_session_class(output_mode, output_file)
     session_instance = NewFlowSession()
+    session_instance = NewFlowSession()
 
     if input_file is not None:
         sniffer = AsyncSniffer(offline=input_file, filter='tcp port 443',
@@ -53,6 +54,7 @@ def main():
         sniffer.join()
     except KeyboardInterrupt:
         sniffer.stop()
+        session.garbage_collect(latest_time=None)
     finally:
         sniffer.join()
         # Manual trigger garbage collection to flush possible remaining flows
