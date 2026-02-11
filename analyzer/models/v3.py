@@ -5,7 +5,8 @@ from keras.layers import Dense, Dropout, MaxPool1D, Conv1D
 
 def create_model(segment_size):
     model = Sequential()
-    model.add(Conv1D(segment_size * 2, kernel_size=3, input_shape=(segment_size, 5), activation='relu'))
+    model.add(Conv1D(segment_size * 2, kernel_size=3,
+              input_shape=(segment_size, 5), activation='relu'))
     model.add(MaxPool1D())
     model.add(Flatten())
     model.add(Dense(segment_size * 6, activation='relu'))
