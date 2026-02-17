@@ -11,3 +11,8 @@ Example:
 ```bash
 PYTHONPATH=../ python3 main.py --input analyzer/sample_data/ --output test.json
 ```
+Or as module in the DoHLyzer root folder:
+
+```bash
+python3 -m analyzer.main --input analyzer/sample_data --output test.json
+```

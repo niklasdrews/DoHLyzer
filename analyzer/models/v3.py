@@ -1,5 +1,6 @@
-from tensorflow.keras import Sequential
-from tensorflow.keras.layers import Dense, Dropout, LSTM, Conv1D, MaxPool1D, Flatten
+from keras.layers import Flatten
+from keras import Sequential
+from keras.layers import Dense, Dropout, MaxPool1D, Conv1D
 
 
 def create_model(segment_size):

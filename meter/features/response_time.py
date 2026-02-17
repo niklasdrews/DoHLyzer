@@ -25,7 +25,7 @@ class ResponseTime:
         temp_direction = None
         for packet, direction in self.feature.packets:
             if temp_direction == PacketDirection.FORWARD and direction == PacketDirection.REVERSE:
-                time_diff.append(packet.time - temp_packet.time)
+                time_diff.append(float(packet.time - temp_packet.time))
             temp_packet = packet
             temp_direction = direction
         return time_diff
@@ -37,11 +37,10 @@ class ResponseTime:
             float: The variation in time differences.
 
         """
-        var = -1
-        if len(self.get_dif()) != 0:
-            var = numpy.var(self.get_dif())
-
-        return var
+        dif = self.get_dif()
+        if len(dif) == 0:
+            return -1.0
+        return float(numpy.var(dif))
 
     def get_mean(self) -> float:
         """Calculates the mean of the list of time differences.
@@ -50,11 +49,10 @@ class ResponseTime:
             float: The mean in time differences.
 
         """
-        mean = -1
-        if len(self.get_dif()) != 0:
-            mean = numpy.mean(self.get_dif())
-
-        return mean
+        dif = self.get_dif()
+        if len(dif) == 0:
+            return -1.0
+        return float(numpy.mean(dif))
 
     def get_median(self) -> float:
         """Calculates the median of the list of time differences
@@ -63,7 +61,10 @@ class ResponseTime:
             float: The median in time differences.
 
         """
-        return numpy.median(self.get_dif())
+        dif = self.get_dif()
+        if len(dif) == 0:
+            return -1.0
+        return float(numpy.median(dif))
 
     def get_mode(self) -> float:
         """Calculates the mode of the of time differences
@@ -125,11 +126,10 @@ class ResponseTime:
             float: The standard deviation in time differences.
 
         """
-        std = -1
-        if len(self.get_dif()) != 0:
-            std = numpy.sqrt(self.get_var())
-
-        return std
+        dif = self.get_dif()
+        if len(dif) == 0:
+            return -1.0
+        return float(numpy.sqrt(self.get_var()))
 
     def get_cov(self) -> float:
         """Calculates the coefficient of variance of the list of time differences

@@ -28,7 +28,7 @@ class FlowSession(DefaultSession):
 
         self.clumped_flows_per_label = defaultdict(list)
 
-        super(FlowSession, self).__init__(None, True, *args, **kwargs)
+        super(FlowSession, self).__init__(*args, **kwargs)
 
     def toPacketList(self):
         # Sniffer finished all the packets it needed to sniff.
@@ -36,9 +36,15 @@ class FlowSession(DefaultSession):
         self.garbage_collect(None)
         return super(FlowSession, self).toPacketList()
 
-    def on_packet_received(self, packet):
+    def process(self, pkt):
+
+        # If not IPv4 packet, skip it
+        if 'IP' not in pkt:
+            return
+
         count = 0
         direction = PacketDirection.FORWARD
+        packet = pkt
 
         if self.output_mode != 'flow':
             if TLS not in packet:
@@ -124,7 +130,8 @@ class FlowSession(DefaultSession):
                     del self.flows[k]
             else:
                 if latest_time is None or latest_time - flow.latest_timestamp > EXPIRED_UPDATE:
-                    output_dir = os.path.join(self.output_file, 'doh' if flow.is_doh() else 'ndoh')
+                    output_dir = os.path.join(
+                        self.output_file, 'doh' if flow.is_doh() else 'ndoh')
                     os.makedirs(output_dir, exist_ok=True)
                     proc = Processor(flow)
                     flow_clumps = proc.create_flow_clumps_container()
